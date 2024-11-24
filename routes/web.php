@@ -39,7 +39,7 @@ Route::get('/posts', [PostController::class, 'index']
 );
 
 // halaman single post
-Route::get('/posts/{slug}', [PostController::class, 'show']
+Route::get('/posts/{post:slug}', [PostController::class, 'show']
 // $new_post = [];
 // Foreach($blog_posts as $post){
 //     if($post['slug'] == $slug){

@@ -12,5 +12,7 @@ class Post extends Model
     // protected $fillable = ['title', 'author', 'excerpt', 'body']; yang bisa di isi cuma ini
     protected $guarded = ['id'];//ini akan di lindungi kecuali sisa boleh di isi
 
-
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 }

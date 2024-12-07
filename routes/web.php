@@ -3,9 +3,12 @@
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
+
 use PhpParser\Node\Stmt\Foreach_;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,3 +83,7 @@ Route::get('categories', function(){
 //         'posts' => $author->posts->load('category', 'author')
 //     ]);
 // });
+
+Route::get('/login', [LoginController::class, 'index']);
+Route::get('/register', [RegisterController::class, 'index']);
+Route::post('/register', [RegisterController::class, 'store']);

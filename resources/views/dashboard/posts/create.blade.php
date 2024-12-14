@@ -6,30 +6,41 @@
   </div>
 
   <div class="col-lg-8">
-      <form method="POST" action="/dashboard/posts">
+      <form method="post" action="/dashboard/posts">
         @csrf
         <div class="mb-3">
           <label for="title" class="form-label"><b>Title</b></label>
-          <input type="text" class="form-control" id="title" name="title">
+          <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" required autofocus value="{{ old('title') }}">
+          @error('title')
+              <div class="invalid-feedback">
+                {{ $message }}
+              </div>
+          @enderror
         </div>
         <div class="mb-3">
           <label for="slug" class="form-label"><b>Slug</b></label>
-          <input type="text" class="form-control" id="slug" name="slug" disabled readonly>
+          <input type="text" class="form-control" id="slug" name="slug" disabled  readonly>
         </div>
         <div class="mb-3">
           <label for="category" class="form-label"><b>Category</b></label>
           <select class="form-select" name="category_id">
             @foreach ($categories as $category)
-            <option value="{{ $category->id }}">{{ $category->name }}</option>
+              @if (old('category_id') == $category->id)
+                  <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                @else
+                  <option value="{{ $category->id }}">{{ $category->name }}</option>
+              @endif
             @endforeach
           </select>
         </div>
         <div class="mb-3">
           <label for="body" class="form-label"><b>Body</b></label>
-          <input id="body" type="hidden" name="body">
+          @error('body')
+          <p class="text-danger">{{ $message }}</p>
+          @enderror
+          <input id="body" type="hidden" name="body" value="{{ old('body') }}">
           <trix-editor input="body"></trix-editor>
         </div>
-
         <button type="submit" class="btn btn-primary">Create Post</button>
       </form>
   </div>
@@ -38,19 +49,40 @@
     const title = document.querySelector('#title');
     const slug = document.querySelector('#slug');
 
-    // title.addEventListener("change", function(){
-    //     fetch('/dashboard/posts/checkSlug?title=' + title.value)
-    //         .then(response => response.json())
-    //         .then(data => slug.value = data.slug)
-    // });
+    title.addEventListener('change', function(){
+      fetch('/dashboard/posts/checkSlug?title=' + title.value)
+        .then(response => response.json())
+        .then(data => slug.value = data.slug)
+//       fetch('/dashboard/posts/checkSlug?title=' + title.value, {
+//     headers: {
+//         'Accept': 'application/json'
+//     }
+// })
+// .then(response => {
+//     if (!response.ok) {
+//         throw new Error('Network response was not ok ' + response.statusText);
+//     }
+//     return response.json();
+// })
+// .then(data => slug.value = data.slug)
+// .catch(error => console.error('There was a problem with the fetch operation:', error));
+    });
+
+//     title.addEventListener('change', function() {
+//     fetch('/dashboard/posts/checkSlug?title=' + title.value)
+//     .then(response => response.json())
+//     .then(data => slug.value = data.slug)
+// });
+
+
     // const title = document.querySelector("#title");
     //     const slug = document.querySelector("#slug");
 
-        title.addEventListener("keyup", function() {
-            let preslug = title.value;
-            preslug = preslug.replace(/ /g,"-");
-            slug.value = preslug.toLowerCase();
-        });
+        // title.addEventListener("keyup", function() {
+        //     let preslug = title.value;
+        //     preslug = preslug.replace(/ /g,"-");
+        //     slug.value = preslug.toLowerCase();
+        // });
 
         document.addEventListener('trix-file-accept', function(e){
             e.preventDefault();

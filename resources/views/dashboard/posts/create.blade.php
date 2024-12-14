@@ -6,7 +6,7 @@
   </div>
 
   <div class="col-lg-8">
-      <form method="post" action="/dashboard/posts">
+      <form method="post" action="/dashboard/posts" class="mb-5">
         @csrf
         <div class="mb-3">
           <label for="title" class="form-label"><b>Title</b></label>
@@ -19,7 +19,7 @@
         </div>
         <div class="mb-3">
           <label for="slug" class="form-label"><b>Slug</b></label>
-          <input type="text" class="form-control" id="slug" name="slug" disabled  readonly>
+          <input type="text" class="form-control" id="slug" name="slug">
         </div>
         <div class="mb-3">
           <label for="category" class="form-label"><b>Category</b></label>
@@ -46,8 +46,8 @@
   </div>
 
   <script>
-    const title = document.querySelector('#title');
-    const slug = document.querySelector('#slug');
+    const title = document.getElementById('title');
+    const slug = document.getElementById('slug');
 
     title.addEventListener('change', function(){
       fetch('/dashboard/posts/checkSlug?title=' + title.value)

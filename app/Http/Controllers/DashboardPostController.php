@@ -57,6 +57,7 @@ class DashboardPostController extends Controller
         Post::create($validatedData);
 
         return redirect('/dashboard/posts')->with('success', 'New Post has been added!');
+        // return $request;
     }
 
     /**
@@ -103,7 +104,8 @@ class DashboardPostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        Post::destroy($post->id);
+        return redirect('/dashboard/posts')->with('success', 'Post has been deleted!');
     }
 
     // public function checkSlug(Request $request)
